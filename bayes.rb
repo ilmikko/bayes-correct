@@ -1,3 +1,4 @@
+#!env ruby
 # 
 # Bayesian reasoning and 'smart' error correction
 #
