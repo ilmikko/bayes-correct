@@ -1,7 +1,7 @@
 This project researches ways of detecting what the user is doing by the raw activities on the keyboard.
 Hence you might understand that another name candidate for the project was 'definitely-not-a-keylogger'.
 
-== Usage ==
+## Usage
 
 At the moment only the keystrokes from the linux kernel are supported.
 You can pipe the input events directly into this program by running:
@@ -9,7 +9,7 @@ You can pipe the input events directly into this program by running:
 
 I'll add a possibility of direct input (to stdin) later.
 
-== The idea ==
+## The idea
 
 The idea comes from the fact that people hate to learn different key combinations for different commands. From the top of my head I can make a couple of examples:
 
