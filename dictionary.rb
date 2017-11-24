@@ -8,6 +8,11 @@
 # Of course this approach is not perfect: this is why we store the frequency of the gathered words in our corpus. Words with a frequency of 1 aren't probably worth making a note of.
 #
 
+require_relative('./data.rb');
+
+# initialize corpus
+$data['corpus']={} if $data['corpus'].nil?;
+
 class Dictionary
 	@@punctuation='1/,.'; # 1=>!, /=>?
 	def add(word)
@@ -34,6 +39,6 @@ class Dictionary
 		return true;
 	end
 	def initialize
-		@corpus={};
+		@corpus=$data['corpus'];
 	end
 end

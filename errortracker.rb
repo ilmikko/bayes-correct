@@ -4,6 +4,12 @@
 # This module keeps track of errors the user makes, with the help of our context sentence.
 # Corrections are stored in the 'corrections' dictionary.
 #
+
+require_relative('./data.rb');
+
+# initialize corrections in data
+$data['corrections']={} if $data['corrections'].nil?;
+
 class ErrorTracker
 	def track(incorrect)
 		log("EE: #{incorrect}");
@@ -32,7 +38,7 @@ class ErrorTracker
 		@incorrects=[];
 	end
 	def initialize
-		@corrections={};
+		@corrections=$data['corrections'];
 		reset;
 	end
 end
