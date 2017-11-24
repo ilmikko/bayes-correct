@@ -68,7 +68,7 @@ bytearr=[];
 listener=InputListener.new;
 
 # read piped linux kernel input events
-# Usage: cat /dev/input/event0 | bayes.rb
+# Usage: cat /dev/input/event0 | ruby bayes.rb
 ARGF.each_byte{|byte|
 	ri=(ri+1)%72;
 
@@ -79,6 +79,7 @@ ARGF.each_byte{|byte|
 		#puts(bytearr.map{|x| x.to_s(16)}.join(' '));
 		eventType=bytearr[44];
 		key=bytearr[42];
+
 		if (eventType==1)
 			# We're really only interested in keydown events, aren't we?
 			#puts("Key: #{keys[key-1]}");

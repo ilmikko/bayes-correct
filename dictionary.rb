@@ -15,6 +15,9 @@ $data['corpus']={} if $data['corpus'].nil?;
 
 class Dictionary
 	@@punctuation='1/,.'; # 1=>!, /=>?
+	def status
+		"[corpus:#{@corpus.keys.length}]"
+	end
 	def add(word)
 		word=strip(word);
 		return if !valid? word;

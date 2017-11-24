@@ -11,6 +11,9 @@ require_relative('./data.rb');
 $data['corrections']={} if $data['corrections'].nil?;
 
 class ErrorTracker
+	def status
+		"[Tracking:#{@tracking ? 1 : 0}][i:#{@incorrects.length}][c:#{@corrections.keys.length}]";
+	end
 	def track(incorrect)
 		log("EE: #{incorrect}");
 		@incorrects.push(incorrect[0..-1]);

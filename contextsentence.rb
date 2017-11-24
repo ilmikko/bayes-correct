@@ -17,8 +17,6 @@ class ContextSentence
 	def previousword; @sentence[@cursor[0]-1]; end
 	def nextword; @sentence[@cursor[0]+1]; end
 	def status
-		print("Context cursor: #{@cursor}\r\n");
-
 		word = currentword[0..-1] << " ";
 		if word.length>1
 			# display cursor in word
@@ -26,8 +24,7 @@ class ContextSentence
 			word.insert(@cursor[1],"\e[7m");
 		end
 
-		print("Context word: #{word}\r\n");
-		print("Context sentence: #{@sentence}\r\n");
+		"#{@@errortracker.status}\r\n#{@@dictionary.status}\r\nCursor: #{@cursor}\r\nContext Word: #{word}\r\nContext Sentence: #{@sentence}"
 	end
 	def add(key)
 		@erasing=false;

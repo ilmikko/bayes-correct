@@ -34,7 +34,6 @@ class DataHandler
 	end
 	def save
 		@files.each{|file,data|
-			puts("#{file}=>#{data}");
 			File.write(getpath(file),data.to_json);
 		}
 	end

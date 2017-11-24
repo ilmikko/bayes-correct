@@ -10,9 +10,6 @@ require_relative('./cumulavg.rb');
 
 class InputListener
 	@@contextsentence=ContextSentence.new;
-	def cs
-		@@contextsentence;
-	end
 	def status
 		def anim
 			@anim="/-\\|".split(//) if !@anim;
@@ -22,8 +19,8 @@ class InputListener
 		print("[#{anim} InputListener #{[@modshift,@modctrl,@modalt].map{|x| x ? '1' : '0'}.join(' ')}]\r\n");
 		print("Last key: #{@key}\r\n");
 		print("Key avg: #{@keyaverage} (#{@keyerror}%)\r\n");
-		@@contextsentence.status;
-		print("[Log]\r\n");
+		print(@@contextsentence.status);
+		print("\r\n[Log]\r\n");
 		print($log.last(10).join("\r\n"));
 	end
 	def up(key)
