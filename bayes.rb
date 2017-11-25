@@ -10,6 +10,7 @@
 # -> Suggesting words (not really that interesting)
 
 require('json');
+require('io/console');
 
 def levDist(str1,str2)
 	d = [];
@@ -67,39 +68,78 @@ bytearr=[];
 
 listener=InputListener.new;
 
-# read piped linux kernel input events
-# Usage: cat /dev/input/event0 | ruby bayes.rb
-ARGF.each_byte{|byte|
-	ri=(ri+1)%72;
-
-	bytearr.push(byte);
-
-	if (ri==0)
-		# Full byte array received
-		#puts(bytearr.map{|x| x.to_s(16)}.join(' '));
-		eventType=bytearr[44];
-		key=bytearr[42];
-
-		if (eventType==1)
-			# We're really only interested in keydown events, aren't we?
-			#puts("Key: #{keys[key-1]}");
-			if keys[key-1]
-				listener.down(keys[key-1]);
-				listener.status;
-			end
-		elsif (eventType==2)
-			#puts("Hld: #{keys[key-1]}");
-			#listener.say(keys[key-1]);
-			if keys[key-1]
-				listener.hold(keys[key-1]);
-				listener.status;
-			end
-		elsif (eventType==0)
-			if keys[key-1]
-				listener.up(keys[key-1]);
-				listener.status;
-			end
+class RubyListener
+	@@keymap=JSON.parse(File.read('./keymap.json'));
+	def convert(char)
+		if @@keymap.key? char
+			char=@@keymap[char];
+		else
+			char=char.upcase;
 		end
-		bytearr.clear;
 	end
-}
+	def initialize(listener)
+		# read standard ruby input events
+		STDIN.raw!;
+		STDIN.each_char{|char|
+			exit if char=="\u0003"; # ^C
+			if char=="\e"
+				# Watch out for more characters
+				char+=STDIN.getch+STDIN.getch;
+			end
+			listener.down(convert(char));
+			listener.status;
+		}
+	end
+end
+
+class LinuxListener
+	def initialize(listener)
+		# read piped linux kernel input events
+		# Usage: cat /dev/input/event0 | ruby bayes.rb
+		ARGF.each_byte{|byte|
+			ri=(ri+1)%72;
+
+			bytearr.push(byte);
+
+			if (ri==0)
+				# Full byte array received
+				#puts(bytearr.map{|x| x.to_s(16)}.join(' '));
+				eventType=bytearr[44];
+				key=bytearr[42];
+
+				if (eventType==1)
+					# We're really only interested in keydown events, aren't we?
+					#puts("Key: #{keys[key-1]}");
+					if keys[key-1]
+						listener.down(keys[key-1]);
+						listener.status;
+					end
+				elsif (eventType==2)
+					#puts("Hld: #{keys[key-1]}");
+					#listener.say(keys[key-1]);
+					if keys[key-1]
+						listener.hold(keys[key-1]);
+						listener.status;
+					end
+				elsif (eventType==0)
+					if keys[key-1]
+						listener.up(keys[key-1]);
+						listener.status;
+					end
+				end
+				bytearr.clear;
+			end
+		}
+	end
+end
+
+# We cannot have both listeners on STDIN.
+# Hence the command line parameter '-'.
+
+if ARGV[0]=='-'
+	log('Using ruby listener (stdin)');
+	RubyListener.new(listener);
+else
+	log('Using piped input events from kernel (stdin)');
+	LinuxListener.new(listener);
+end
