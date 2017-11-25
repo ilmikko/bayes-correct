@@ -79,6 +79,10 @@ class RubyListener
 	end
 	def initialize(listener)
 		# read standard ruby input events
+		at_exit{
+			STDIN.echo=true;
+			STDIN.cooked!;
+		}
 		STDIN.raw!;
 		STDIN.each_char{|char|
 			exit if char=="\u0003"; # ^C
