@@ -171,6 +171,10 @@ class ContextSentence
 					@cursor[1]=0;
 					return true;
 				else
+					# If we're going out of the words' bounds, reset the context sentence.
+					# This is because sometimes right arrow means that the suggestion is being accepted,
+					# and if that is the case, we can't really track the context sentence anymore.
+					reset;
 					return false;
 				end
 			else
@@ -186,6 +190,9 @@ class ContextSentence
 					@cursor[1]=currentword.length;
 					return true;
 				else
+					# If we're going left out of bounds, we're probably missing something
+					# so it's safer to reset rather than screw up the first word just because we're bound here.
+					reset;
 					return false;
 				end
 			else

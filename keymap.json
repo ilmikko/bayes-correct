@@ -1,0 +1,10 @@
+{
+	"\u001b[A":"UP",
+	"\u001b[B":"DOWN",
+	"\u001b[C":"RIGHT",
+	"\u001b[D":"LEFT",
+	"\r":"ENTER",
+	"\t":"TAB",
+	"\u007f":"BS",
+	" ":"SPACE"
+}
