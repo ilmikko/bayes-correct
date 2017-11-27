@@ -8,6 +8,16 @@
 require_relative('./data.rb');
 
 # initialize corrections in data
+# There might be a variety of corrections to different incorrect words.
+# the corrections are of format:
+# {
+#		"incorrect":{
+#			"correction":(int frequency)
+#		}
+# }
+# Roughly translating to:
+# The word 'incorrect' has a correction 'correction' with a frequency of `frequency`.
+#
 $data['corrections']={} if $data['corrections'].nil?;
 
 class ErrorTracker
@@ -28,7 +38,9 @@ class ErrorTracker
 			# Because that is technically correct
 			# but we don't want those.
 
-			@corrections[incorrect]=word;
+			@corrections[incorrect]={} if !@corrections.key?incorrect;
+			@corrections[incorrect][word]=0 if !@corrections[incorrect].key?word;
+			@corrections[incorrect][word]+=1;
 			log("EC: #{incorrect} => #{word}");
 		}
 		reset;
