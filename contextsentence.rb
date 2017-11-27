@@ -55,6 +55,9 @@ class ContextSentence
 			end
 		end
 
+		# In any case when breaking a word, reset the error tracker.
+		@@errortracker.reset;
+
 		# Split the word where the cursor is.
 		a=currentword[0...@cursor[1]];
 		b=currentword[@cursor[1]..-1];
