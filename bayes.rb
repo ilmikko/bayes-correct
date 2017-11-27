@@ -52,9 +52,15 @@ def levDist(str1,str2)
 end
 
 $log=[];
-def log(str)
+def puts(str)
 	$log.push(str);
 end
+def log(str)
+	puts(str);
+end
+at_exit{
+	File.write('./last.log',$log.join("\n"));
+}
 
 require_relative('./inputlistener.rb');
 
