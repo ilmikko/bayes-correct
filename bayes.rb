@@ -60,12 +60,6 @@ require_relative('./inputlistener.rb');
 
 # TODO: ruby input stream
 
-# unix input stream (keylogger)
-keys=JSON.parse(File.read('./keys.json'));
-
-ri=0;
-bytearr=[];
-
 listener=InputListener.new;
 
 class RubyListener
@@ -97,7 +91,10 @@ class RubyListener
 end
 
 class LinuxListener
+	@@keys=JSON.parse(File.read('./keys.json'));
 	def initialize(listener)
+		ri=0;
+		bytearr=[];
 		# read piped linux kernel input events
 		# Usage: cat /dev/input/event0 | ruby bayes.rb
 		ARGF.each_byte{|byte|
@@ -114,20 +111,20 @@ class LinuxListener
 				if (eventType==1)
 					# We're really only interested in keydown events, aren't we?
 					#puts("Key: #{keys[key-1]}");
-					if keys[key-1]
-						listener.down(keys[key-1]);
+					if @@keys[key-1]
+						listener.down(@@keys[key-1]);
 						listener.status;
 					end
 				elsif (eventType==2)
 					#puts("Hld: #{keys[key-1]}");
 					#listener.say(keys[key-1]);
-					if keys[key-1]
-						listener.hold(keys[key-1]);
+					if @@keys[key-1]
+						listener.hold(@@keys[key-1]);
 						listener.status;
 					end
 				elsif (eventType==0)
-					if keys[key-1]
-						listener.up(keys[key-1]);
+					if @@keys[key-1]
+						listener.up(@@keys[key-1]);
 						listener.status;
 					end
 				end
