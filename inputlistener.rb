@@ -76,8 +76,8 @@ class InputListener
 
 		## TODO: Divide this into its own module
 		ignore=['ESC','BS','TAB','ENTER','L CTRL','L SHIFT','R SHIFT','L ALT','SPACE','CAPS LOCK','F1','F2','F3','F4','F5','F6','F7','F8','F9','F10','NUM LOCK','SCROLL LOCK','NUM INS','NUM DEL','R ENTER','R CTRL','PRT SCR','R ALT','HOME','UP','PGUP','LEFT','RIGHT','END','DOWN','PGDN','INS','DEL','PAUSE','><'];
-		resetters=['UP','DOWN','ENTER','ESC'];
-		breakers=['SPACE','TAB','ENTER']
+		resetters=['UP','DOWN','TAB','ENTER','ESC'];
+		breakers=['SPACE','ENTER']
 		# TODO: Support some modifier bunches like CTRL+A BS (select all backspace) or CTRL+LEFT (move word left)
 		# CTRL+BS (remove word)
 
