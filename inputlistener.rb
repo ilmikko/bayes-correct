@@ -141,6 +141,13 @@ class InputListener
 				if @modctrl && key=='A'
 					# Ctrl-A
 					@@contextsentence.reset;
+				elsif @modctrl && key=='S'
+					# Ctrl-S, break and then reset
+					@@contextsentence.break;
+					@@contextsentence.reset;
+				elsif @modctrl && key=='F'
+					# Ctrl-F, find, reset
+					@@contextsentence.reset;
 				end
 			end
 		end
